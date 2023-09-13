@@ -8,16 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
-    let emojis: Array<String> = ["💀", "🫦", "🦾", "🌚", "🌈", "🍑", "🍆", "🥇", "🗿", "💣", "❤️", "🇺🇦"]
-    @State var cardCount: Int = 4
+    
+    @State var cardCount: Int = 0
+    
+    @State var chosenTheme: Array<String> = []
     
     var body: some View {
         VStack {
+            title
             ScrollView {
                 cards
             }
             Spacer()
-            cardCountAdjusters
+            //cardCountAdjusters
+            themeChooseButtons
         }
         .padding()
     }
@@ -28,7 +32,33 @@ struct ContentView: View {
         }, label: {
             Image(systemName: symbol)
         })
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
+        .disabled(cardCount + offset < 1 || cardCount + offset > chosenTheme.count)
+    }
+    
+    func chooseTheme(theme: [String], symbol: String, text: String) -> some View {
+        Button(action: {
+            chosenTheme = theme
+            chosenTheme.shuffle()
+        }, label: {
+            VStack {
+                Image(systemName: symbol)
+                    .font(.system(size: 50))
+                Text(text)
+                    .font(.system(size: 15))
+            }
+        })
+    }
+    
+    var chooseTheme1: some View {
+        chooseTheme(theme: ["🐶", "🐶", "🦊", "🦊", "🐱", "🐱", "🐻", "🐻", "🦁", "🦁"], symbol: "pawprint", text: "Animals")
+    }
+    
+    var chooseTheme2: some View {
+        chooseTheme(theme: ["✌️", "✌️", "👋", "👋", "🖕", "🖕", "🫶", "🫶", "🤙", "🤙", "👊", "👊", "🤌", "🤌", "💪", "💪"], symbol: "hand.wave", text: "Gestures")
+    }
+    
+    var chooseTheme3: some View {
+        chooseTheme(theme: ["🇦🇷", "🇦🇷", "🇪🇸", "🇪🇸", "🇬🇧", "🇬🇧", "🇺🇦", "🇺🇦", "🇺🇸", "🇺🇸", "🇨🇳", "🇨🇳", "🇵🇱", "🇵🇱", "🇧🇷", "🇧🇷", "🇫🇷", "🇫🇷", "🇩🇪", "🇩🇪"], symbol: "globe.europe.africa", text: "Countries")
     }
         
     
@@ -41,9 +71,9 @@ struct ContentView: View {
     }
     
     var cards: some View {
-        LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
-            ForEach(0..<cardCount, id: \.self) { index in
-                CardView(content: emojis[index])
+        LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem()]) {
+            ForEach(0..<chosenTheme.count, id: \.self) { index in
+                CardView(content: chosenTheme[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
@@ -60,11 +90,48 @@ struct ContentView: View {
         }
         .font(.largeTitle)
     }
+    
+    var themeChooseButtons: some View {
+        HStack(spacing: 40) {
+            chooseTheme1
+            chooseTheme2
+            chooseTheme3
+        }
+        
+    }
+    
+    var title: some View {
+        VStack {
+            Text("Memorize!")
+                .font(
+                    .custom(
+                    "AmericanTypewriter",
+                    fixedSize: 48)
+                    .weight(.heavy)
+
+                ).foregroundColor(Color.indigo)
+
+            if chosenTheme.isEmpty {
+                Spacer()
+                Text("Choose theme to start!")
+                    .font(
+                        .custom(
+                        "AmericanTypewriter",
+                        fixedSize: 34)
+                        .weight(.heavy)
+
+                    ).foregroundColor(Color.blue)
+                    .multilineTextAlignment(.center)
+            }
+        }
+
+        
+    }
 }
 
 struct CardView: View {
     let content: String
-    @State var isFaceUp = true
+    @State var isFaceUp = false
     
     var body: some View {
         ZStack{
@@ -73,7 +140,7 @@ struct CardView: View {
                 base
                     .fill(.white)
                 base
-                    .strokeBorder(lineWidth: 2)
+                    .strokeBorder(lineWidth: 5)
                 Text(content).font(.largeTitle)
             }
             .opacity(isFaceUp ? 1 : 0)
