@@ -13,6 +13,7 @@
 		4A9115E12AA931F400713A21 /* EmojiMemoryGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9115E02AA931F400713A21 /* EmojiMemoryGameView.swift */; };
 		4A9115E32AA931F500713A21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A9115E22AA931F500713A21 /* Assets.xcassets */; };
 		4A9115E62AA931F500713A21 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A9115E52AA931F500713A21 /* Preview Assets.xcassets */; };
+		4ADE4B182AB651B8007783F9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE4B172AB651B8007783F9 /* Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		4A9115E02AA931F400713A21 /* EmojiMemoryGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGameView.swift; sourceTree = "<group>"; };
 		4A9115E22AA931F500713A21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4A9115E52AA931F500713A21 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4ADE4B172AB651B8007783F9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				4A9115E02AA931F400713A21 /* EmojiMemoryGameView.swift */,
 				4A2321DB2AB167F3006A550C /* MemoryGame.swift */,
 				4A2321DD2AB169D2006A550C /* EmojiMemoryGame.swift */,
+				4ADE4B172AB651B8007783F9 /* Theme.swift */,
 				4A9115E22AA931F500713A21 /* Assets.xcassets */,
 				4A9115E42AA931F500713A21 /* Preview Content */,
 			);
@@ -145,6 +148,7 @@
 			files = (
 				4A9115E12AA931F400713A21 /* EmojiMemoryGameView.swift in Sources */,
 				4A9115DF2AA931F400713A21 /* MemorizeApp.swift in Sources */,
+				4ADE4B182AB651B8007783F9 /* Theme.swift in Sources */,
 				4A2321DC2AB167F3006A550C /* MemoryGame.swift in Sources */,
 				4A2321DE2AB169D2006A550C /* EmojiMemoryGame.swift in Sources */,
 			);
