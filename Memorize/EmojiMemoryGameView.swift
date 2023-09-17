@@ -23,7 +23,7 @@ struct EmojiMemoryGameView: View {
                     .animation(.default, value: viewModel.cards)
             }
             Button("New Game") {
-                viewModel.shuffle()
+                viewModel.newGame()
             }
             Spacer()
             //cardCountAdjusters
@@ -87,7 +87,7 @@ struct EmojiMemoryGameView: View {
                     }
             }
         }
-        .foregroundColor(.green)
+        .foregroundColor(viewModel.setColor())
     }
     
     var cardCountAdjusters: some View {

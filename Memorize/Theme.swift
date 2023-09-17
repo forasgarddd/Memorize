@@ -17,15 +17,4 @@ struct Theme {
     
     let color: String
     
-    init(name: String, emojiSet: [String], numberOfPairsOfCards: Int, color: String) {
-        self.name = name
-        self.emojiSet = emojiSet
-        self.numberOfPairsOfCards = numberOfPairsOfCards
-        self.color = color
-    }
-    
-    static func chooseRandomTheme(themes: [Theme]) -> Theme {
-        return themes.randomElement() ?? Theme(name: "", emojiSet: [], numberOfPairsOfCards: 0, color: "")
-    }
-    
 }
