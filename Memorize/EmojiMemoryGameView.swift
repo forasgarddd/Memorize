@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  EmojiMemoryGameView.swift
 //  Memorize
 //
 //  Created by Ivan Devitskyi on 01/11/2025.
@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
 
-    @State var currentTheme : Theme
-    @State var cardCount : Int
+    @State var currentTheme: Theme
+    //var viewModel: EmojiMemoryGame
     
     let themes = [
         Theme(name: "Activities", emojis: ["⚽️", "🏀", "⚽️", "🏀", "🎱", "🎾", "🎱", "🎾", "🥏", "🏓", "🥏", "🏓", "🪀", "🎯", "🪀", "🎯", "🥊", "🥊"], symbol: "sportscourt", color: .green),
@@ -19,7 +19,6 @@ struct ContentView: View {
     ]
     
     init() {
-        self.cardCount = themes[0].emojis.count
         self.currentTheme = themes[0]
     }
 
@@ -30,7 +29,7 @@ struct ContentView: View {
             ScrollView {
                 cards
             }
-            Spacer()
+
             themeChangers
         }
         .padding()
@@ -68,11 +67,6 @@ struct ContentView: View {
     func changeTheme(to theme: Theme) {
         currentTheme.emojis = theme.emojis.shuffled()
         currentTheme.color = theme.color
-        if cardCount > currentTheme.emojis.count {
-            cardCount = currentTheme.emojis.count
-        } else {
-            cardCount = currentTheme.emojis.count
-        }
     }
     
     func flipRandomPairOfCards() {
@@ -110,5 +104,5 @@ struct Theme {
 }
 
 #Preview {
-    ContentView()
+    EmojiMemoryGameView()
 }
