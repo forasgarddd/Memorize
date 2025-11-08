@@ -9,64 +9,45 @@ import SwiftUI
 
 struct EmojiMemoryGameView: View {
 
-    @State var currentTheme: Theme
-    //var viewModel: EmojiMemoryGame
+    @ObservedObject var viewModel: EmojiMemoryGame
     
-    let themes = [
-        Theme(name: "Activities", emojis: ["⚽️", "🏀", "⚽️", "🏀", "🎱", "🎾", "🎱", "🎾", "🥏", "🏓", "🥏", "🏓", "🪀", "🎯", "🪀", "🎯", "🥊", "🥊"], symbol: "sportscourt", color: .green),
-        Theme(name: "Animals", emojis: ["🐶", "🐱", "🐶", "🐱", "🐰", "🦊", "🐰", "🦊", "🐷", "🐷"], symbol: "pawprint", color: .blue),
-        Theme(name: "Faces", emojis: ["🫨", "🤐", "🫨", "🤐", "🙃", "😎", "🙃", "😎", "🥶", "🤢", "🥶", "🤢"], symbol: "face.smiling", color: .red)
-    ]
-    
-    init() {
-        self.currentTheme = themes[0]
+    init(viewModel: EmojiMemoryGame) {
+        self.viewModel = viewModel
     }
 
     var body: some View {
         VStack {
             Text("Memorize")
                 .font(.largeTitle)
+            Text("Score: \(viewModel.score)")
+                .font(.title)
             ScrollView {
                 cards
+                    .animation(.default, value: viewModel.cards)
             }
-
-            themeChangers
+            Text(viewModel.currentTheme.name)
+                .font(.title)
+            Spacer()
+            Button("New Game") {
+                viewModel.createNewGame()
+            }
+            .font(.largeTitle)
         }
         .padding()
     }
-
-    
-    var themeChangers: some View {
-        HStack {
-            ForEach(themes, id: \.name) { theme in
-                Button(action: {
-                    changeTheme(to: theme)
-                }, label: {
-                    VStack {
-                        Image(systemName: theme.symbol)
-                            .imageScale(.large)
-                        Text(theme.name)
-                            .font(.subheadline)
-                    }
-                })
-            }
-        }
-    }
     
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 75))]) {
-            ForEach(0..<currentTheme.emojis.count, id: \.self) { index in
-                CardView(content: currentTheme.emojis[index])
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 75), spacing: 0)], spacing: 0) {
+            ForEach(viewModel.cards) { card in
+                CardView(card)
                     .aspectRatio(2/3, contentMode: .fit)
+                    .padding(4)
+                    .onTapGesture {
+                        viewModel.choose(card)
+                    }
             }
         }
-        .foregroundStyle(currentTheme.color)
-    }
-
-    
-    func changeTheme(to theme: Theme) {
-        currentTheme.emojis = theme.emojis.shuffled()
-        currentTheme.color = theme.color
+        .foregroundStyle(viewModel.themeColor)
     }
     
     func flipRandomPairOfCards() {
@@ -75,9 +56,11 @@ struct EmojiMemoryGameView: View {
 }
 
 struct CardView: View {
-    let content: String
-    @State var isFaceUp = true
+    let card: MemoryGame<String>.Card
     
+    init(_ card: MemoryGame<String>.Card) {
+        self.card = card
+    }
     
     var body: some View {
         ZStack {
@@ -85,24 +68,18 @@ struct CardView: View {
             Group {
                 base.fill(.white)
                 base.strokeBorder(lineWidth: 4)
-                Text(content).font(.largeTitle)
+                Text(card.content)
+                    .font(.system(size: 200))
+                    .minimumScaleFactor(0.01)
+                    .aspectRatio(1, contentMode: .fit)
             }
-            .opacity(isFaceUp ? 1 : 0)
-            base.opacity(isFaceUp ? 0 : 1)
+            .opacity(card.isFaceUp ? 1 : 0)
+            base.opacity(card.isFaceUp ? 0 : 1)
         }
-        .onTapGesture {
-            isFaceUp.toggle()
-        }
+        .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
     }
 }
 
-struct Theme {
-    let name: String
-    var emojis: [String]
-    let symbol: String
-    var color: Color
-}
-
 #Preview {
-    EmojiMemoryGameView()
+    EmojiMemoryGameView(viewModel: EmojiMemoryGame())
 }
