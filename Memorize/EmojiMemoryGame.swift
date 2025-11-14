@@ -8,14 +8,14 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
+    typealias Card = MemoryGame<String>.Card
     private static let themes = [
                                 Theme(name: "Animals", emojis: ["🐶", "🐱", "🐰", "🦊", "🐻", "🐷", "🐭", "🐹", "🐸", "🐯"], numberOfPairsOfCards: 8, color: "green"),
                                 Theme(name: "Emotions", emojis: ["😊", "😔", "😡", "😮", "😲", "😅"], numberOfPairsOfCards: 6, color: "blue"),
                                 Theme(name: "Food", emojis: ["🍎", "🍊", "🍋", "🍌", "🍉", "🍇"], numberOfPairsOfCards: 4, color: "yellow"),
                                 Theme(name: "Flags", emojis: ["🇮🇹", "🇩🇪", "🇪🇸", "🇫🇷", "🇬🇧", "🇺🇸", "🇧🇪", "🇦🇱", "🇩🇰", "🇳🇴"], numberOfPairsOfCards: 10, color: "red"),
                                 Theme(name: "Objects", emojis: ["📚", "🔧", "🔍", "💻", "🎮", "🧳", "🎨", "🎭", "🎥", "🎶"], numberOfPairsOfCards: 8, color: "purple"),
-                                Theme(name: "Transportation", emojis: ["🚗", "🚄", "🚀", "🚆", "🚂", "🚃", "🚌", "🚎", "🚙", "🚜", "🚔", "🚖"], numberOfPairsOfCards: 12, color: "orange")
-    ]
+                                Theme(name: "Transportation", emojis: ["🚗", "🚄", "🚀", "🚆", "🚂", "🚃", "🚌", "🚎", "🚙", "🚜", "🚔", "🚖"], numberOfPairsOfCards: 12, color: "orange")]
     
     private static func createMemoryGame(theme: Theme) -> MemoryGame<String> {
         return MemoryGame(numberOfPairsOfCards: theme.numberOfPairsOfCards
@@ -42,13 +42,13 @@ class EmojiMemoryGame: ObservableObject {
     
     @Published private var model: MemoryGame<String>
     
-    var currentTheme: Theme
+    @Published private(set) var currentTheme: Theme
     
     init() {
         (model, currentTheme) = EmojiMemoryGame.makeGame()
     }
     
-    var cards: Array<MemoryGame<String>.Card> {
+    var cards: Array<Card> {
         return model.cards
     }
     
@@ -90,7 +90,7 @@ class EmojiMemoryGame: ObservableObject {
     
     // MARK: - Intents
     
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         model.choose(card)
     }
     
